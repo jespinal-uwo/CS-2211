@@ -1,0 +1,120 @@
+1) Files
+
+     1) Q:Suppose the command ls were unavailable. 
+     What command could you use to view files in the current directory instead? Explain why the command works?
+
+     A: echo * : the command "echo *" works because the shell expands the wildcard "*" to print all file names in the 
+		 current directory on the command line and the echo command displays what's written on the command line.
+		
+
+     2) What option do I need to supply to the rm command to ensure I am prompted before a file or directory is removed? 
+     
+	A: -i : Prompts before every removal 
+
+	What option do I need to supply to the rm command to ensure I am NOT prompted before a file or directory is removed? 
+
+        A: -f or --force : Never prompts before any removal
+
+	What happens if both options are used simultaneously - which one has precedence?
+
+	A: if both -i and -f options are used simultaneously, -f takes precedence which means the file is never prompted 
+	   before removing 
+
+      3) What are some differences between the rename command and the mv command?
+
+	A: a) the mv command can only rename 1 file (if the destination doesn't exist), while rename command can rename multiple files
+	   b) the mv command renames the ENTIRE name of the file, while the rename command can rename parts of the name of the file
+		For example: rename abc 123 * : would rename abcFOO to 123FOO and  BARabc to BAR123.
+
+      4) The file command, when run against an executable program shows ELF 64-bit LSB executable. What does ELF mean in this context?
+
+	A: ELF stands for "Executable and Linkable Format" which is a binary file than only a machine (computer) can understand.
+	   ELF is a common standard file format for executable files on UNIX-like Operating Systems.
+
+
+      5) Consider the empty file test.txt. Why does ls -l test.txt say the filesize is 0 but du test.txt says the file size is 1?
+
+	A: The du command is used to estimate disk space usage of a file. While the filesize of test.txt may be 0, it still 
+	   occupies space in the disk, hence the disk space usage of test.txt is 1.
+
+2) Directories
+
+      1)Find a better way to do the following
+
+        mkdir grandparent
+        mkdir grandparent/parent
+        mkdir grandparent/parent/child
+
+	A: mkdir -p grandparent/parent/child : the -p option makes parent directories as needed
+
+
+      2) How do you create a directory with a space in it? 
+
+	A: Use the mkdir command with the name of the directory with a space in double quotes. 
+	   For example, mkdir " Directory" , creates a directory named ' Directory' with a space in it.
+
+
+	 How do you remove a directory with a space in it?
+
+	A: Use the rmdir command with the name of the directory with a space in double quotes. 
+	   For example, rmdir " Directory" , removes the directory named ' Directory' with a space in it.
+
+      3) How do I create a directory and set it's permissions to dr-x------ using only the mkdir command?
+
+	A: mkdir -m=500 <directory>: the -m option is used to set up permissions in either octal mode or symbolic mode for the directory
+
+      4) Suppose I was working in /dir1/dir2/dir3 and I cd to /dir4/dir5/dir6. 
+	 What is an easy way to get back to /dir1/dir2/dir3 without using the explicit command cd /dir1/dir2/dir3 
+	 (perhaps I forgot what the full path name was).
+
+	A: You can use the, "cd -" , command to navigate to the previous directory.
+
+  
+      5) Suppose I used pushd to add 10 folders to my stack. 
+	 How do I quickly determine which folder is the 6th folder in my stack and how do I quickly cd to it?
+
+	A: dirs +5 -v: displays the 6th folder of the stack (which would be the index 5 since indices of the stack run from 0 through n-1)
+		       (where n is the number of folders/directories in the stack)
+
+	   popd +5: Removes 5 folders from the stack which in turn makes you cd to the 6th folder of the stack
+
+  
+
+3) Permissions
+
+       1) What option(s) do I need to add to chmod to print out what modifications are being made?
+
+	A: chmod -c : the -c option prints out what modifications/changes are being made
+
+       2) What option(s) do I need to add to chown to get file2 ownership to simply match file1?
+
+	A: chown --reference=file1 file2: the --reference option allows file2 ownership permissions to match that of file1's
+
+
+        3)What option(s) do I need to add to the stat command to display file permission, user ownership, and group ownership only?
+
+	A: stat --format=%A%U%G : the --format option uses format sequences to display certain information of a file
+
+				%A: displays the file permissions
+				%U: displays the user name of owner
+				%G: displays the group name of owner
+
+
+
+	4) How do you grant a group permission to write data to a file, 
+	   but prevent the users in that group from moving, removing, or renaming the file?
+
+	A: chmod 1720 or chmod g=w,a+t: The sticky (signified by t) permits only the owner or root user of the file to modify, rename
+					or delete the file and no one else (which include users in a group)
+
+					the "1" in "1720" signifies that we want to set up the sticky bit for the file in octal mode
+					(while the "2" signifies that we only want to set up write permissions for the group users)
+	                                the "a+t" also signifies that we want to set up the sticky bit for the file in symbolic mode 
+					(while "g=w" signifies that we only want to set up write permissions for the group users)
+
+	5) When using chmod in symbolic mode, what happens if u/g/o/a are omitted. Eg. chmod +x <filename>
+
+	A: if u/g/o/a are omitted, then the file permissions are set up for all users (the owner, group, and other users)
+	   For example: chmod +x <filename> adds execute permission to the owner, group, and other users
+
+	
